@@ -1,20 +1,54 @@
 # BookingBot
 
-**Workflow automation · Internal tools · Operational handoff**
-
 An internal application that turns repeatable ecommerce booking work into a visible, validated job workflow.
 
-**My role:** application and automation development, operational workflow design, deployment packaging, and user documentation. The linked public documentation sample credits me as its sole author.
+**Workflow automation · Internal tools · Operational handoff**<br>
+**Status:** implemented internal application; public documentation showcase.
 
-[Read the public documentation sample](https://saraward.ai/bookingbot-docs-portfolio.html) · [Workflow and validation](docs/workflow.md) · [Sara Ward](https://saraward.ai)
+[Operating documentation](https://saraward.ai/bookingbot-docs-portfolio.html) · [Workflow and validation](docs/workflow.md) · [Sara Ward](https://saraward.ai)
 
-## The business problem
+## The Problem
 
 Booking a rerun sale requires structured input, a line sheet, multiple admin interactions, and a confirmed result. Operators also need to understand what happened when a request is still running or fails validation.
 
-BookingBot wraps browser automation in a purpose-built application. The user submits a booking request, receives a job identifier, and can inspect progress or failure details.
+## What I Built
 
-## The workflow
+BookingBot wraps browser automation in a purpose-built application. An operator submits a booking request, receives a job identifier, and can inspect progress or failure details. The workflow checks inputs, reuses matching in-flight jobs, and captures evidence for troubleshooting.
+
+## Workflow
+
+Booking form and upload → request validation → duplicate check → browser automation → result inspection → operator review of status or errors.
+
+Submitting a request starts the operation. Status and debug views help the operator distinguish an accepted request from a completed booking.
+
+## My Role
+
+Application and automation development, operational workflow design, deployment packaging, and user documentation. I organized the operating guide around the user journey: getting started, form fields, job states, API behavior, monitoring, and troubleshooting. The linked public documentation sample credits me as its sole author.
+
+## Technology
+
+**JavaScript / Node.js · Playwright · HTTP APIs · file uploads · Docker · AWS container deployment**
+
+The private application includes the booking UI, server, automation, status/debug surfaces, and deployment scripts. This repository contains documentation; it does not install or run the operational application.
+
+## AI vs Deterministic Logic
+
+Booking execution uses conventional code and browser automation. It does not require generative AI. Required-field validation, duplicate detection, job states, and completion checks need predictable behavior. The operator supplies the request and resolves exceptions.
+
+## QA & Human Oversight
+
+| Decision | Practical value |
+| --- | --- |
+| Validate required input and the uploaded file | Surface missing information before browser execution |
+| Return a job ID and explicit state | Make asynchronous work observable |
+| Reuse a matching in-flight job | Reduce accidental duplicate requests |
+| Inspect the resulting page or success signal | Distinguish an attempted submission from a confirmed result |
+| Capture debugging evidence | Help diagnose validation errors and changed page behavior |
+| Document the journey and recovery paths | Support people who did not build the tool |
+
+The [validation guide](docs/workflow.md) separates documented behavior from proposed sandbox tests. No live booking or production integration test was run to verify this public showcase. A separate human approval gate after execution is not claimed.
+
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -22,33 +56,20 @@ flowchart LR
     B --> C{Matching job in flight?}
     C -->|Yes| D[Return existing job]
     C -->|No| E[Queue browser workflow]
-    E --> F[Run and inspect result]
+    E --> F[Inspect result]
     F --> G[Finished or failed]
-    D --> H[Status and debug view]
+    D --> H[Operator status and debug view]
     G --> H
 ```
 
-## Decisions that make it usable
+## Outcome
 
-| Decision | Practical value |
-| --- | --- |
-| Validate required input and the uploaded file | Surface missing information before the browser workflow starts |
-| Return a job ID and explicit state | Give the operator a way to follow asynchronous work |
-| Reuse a matching in-flight job | Reduce accidental duplicate requests |
-| Inspect the resulting page or success signal | Distinguish an attempted submission from a confirmed result |
-| Capture debugging evidence | Help diagnose validation errors and changed page behavior |
-| Document the user journey and recovery paths | Support people who did not build the tool |
+The implemented application brings request intake, browser execution, job visibility, and troubleshooting into one operator workflow. The public operating guide makes that behavior reviewable without access to the internal system. No time-saving, adoption, or revenue metric is claimed here.
 
-## Technology and scope
+## What I Learned
 
-**Node.js · Playwright · HTTP APIs · file uploads · Docker · AWS ECS Fargate**
+Completion signals, understandable failure states, and recovery instructions are part of the automation product. A successful HTTP response alone is insufficient evidence that the business operation finished.
 
-The private application includes the booking UI, server, automation, status/debug surfaces, and deployment scripts. This workflow uses deterministic rules and browser automation; it does not require generative AI to execute a booking.
+## Confidentiality
 
-**Status:** implemented internal application. The public documentation shows the behavior and an anonymized operating guide. This portfolio curation did not execute a live booking or run a production integration test. The [validation guide](docs/workflow.md) separates documented behavior from tests that would require a sandbox.
-
-## The handoff is part of the product
-
-I developed the public documentation sample by reading the existing source and organizing the behavior into a user journey: getting started, form fields, job states, API reference, monitoring, configuration, and troubleshooting.
-
-This project demonstrates operational understanding, application design, browser automation, failure handling, and documentation. Production code, internal records, credentials, and deployment identifiers remain private.
+This public case study describes the system architecture and workflow while omitting proprietary source code, credentials, customer data, and internal infrastructure.
