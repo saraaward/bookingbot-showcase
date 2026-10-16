@@ -1,8 +1,19 @@
 # BookingBot
 
+![A clearer path from request to result. Workflow illustration · public case study; operational source remains private.](docs/images/project-overview.svg)
+
 An internal app for booking rerun ecommerce sales without repeating the same admin steps by hand.
 
 [Operating guide](https://saraward.ai/bookingbot-docs-portfolio.html) · [Workflow and validation](docs/workflow.md) · [Portfolio](https://saraward.ai)
+
+## At a glance
+
+- **For:** ecommerce operators booking rerun sales through a repetitive admin workflow.
+- **My contribution:** application and browser-automation development, workflow design, deployment packaging, and user documentation.
+- **What this demonstrates:** making required inputs, duplicate requests, execution status, and recovery understandable to an operator.
+- **Evidence:** [operating guide](https://saraward.ai/bookingbot-docs-portfolio.html) and [workflow / validation boundaries](docs/workflow.md).
+
+**Status:** public documentation of a private internal application. The validation notes distinguish implemented behavior from proposed sandbox checks; this showcase does not publish a measured time-saving or booking-success rate.
 
 ## The problem
 
